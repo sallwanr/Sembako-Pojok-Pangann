@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Produk - Pojok Pangan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      color: #333;
+    }
+    header {
+      background: #00bcd4;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .keranjang {
+      background: white;
+      color: #00bcd4;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .nav {
+      margin: 20px;
+      text-align: center;
+    }
+    .nav a {
+      text-decoration: none;
+      color: white;
+      background: #00acc1;
+      padding: 10px 18px;
+      border-radius: 8px;
+      margin: 0 8px;
+      transition: background 0.3s ease;
+    }
+    .nav a:hover {
+      background: #0097a7;
+    }
+    .produk {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
+    .item {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    }
+    .item img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .item h2 {
+      font-size: 20px;
+      margin: 15px 0 8px;
+    }
+    .item p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .harga {
+      color: #e67e22;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .btn {
+      background: #00acc1;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin: 5px 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #0097a7;
+    }
+    .varian-select {
+      margin: 10px 0;
+      padding: 6px;
+      width: 90%;
+    }
+    footer {
+      background: #e0e0e0;
+      color: #555;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo Toko" />
+    <h1>Pojok Pangan</h1>
+    <div class="keranjang" onclick="toggleKeranjang()">
+      🛒 Keranjang (<span id="jumlahKeranjang">0</span>)
+    </div>
+  </header>
+
+  <div class="nav">
+    <a href="index.html">🏠 Beranda</a>
+    <a href="checkout.html">🧾 Checkout</a>
+  </div>
+
+  <div class="produk" id="produkList"></div>
+
+  <footer>
+    © 2025 Pojok Pangan | Belanja Mudah, Hemat, & Aman
+  </footer>
+
+  <script>
+    const produk = [
+      {
+        nama: "Beras Premium",
+        harga: 47000,
+        gambar: "beras.jpg",
+        deskripsi: "Beras premium Sania (2,5kg) kualitas super, pulen dan harum."
+      },
+      {
+        nama: "Minyak Goreng",
+        harga: 28500,
+        gambar: "minyak.webp",
+        deskripsi: "Minyak goreng Filma (1L), jernih dan sehat untuk memasak."
+      },
+      {
+        nama: "Gula Pasir",
+        harga: 18000,
+        gambar: "gula.jpg",
+        deskripsi: "Gula pasir Maniskita (1kg) putih bersih, cocok untuk minuman dan masakan."
+      },
+      {
+        nama: "Mie Instan",
+        harga: 1850,
+        gambar: "sakura.jpg",
+        deskripsi: "Mie instan rasa gurih dan lezat, cepat disajikan."
+      },
+      {
+        nama: "Daging Sapi",
+        harga: 42000,
+        gambar: "daging.webp",
+        deskripsi: "Daging Sapi Yona (500g)Irisan daging sapi berkualitas, lembut dan juicy. Cocok untuk masakan cepat saji yang tetap mewah rasanya."
+      },
+      {
+        nama: "Telur Omega",
+        harga: 26180,
+        gambar: "telur.jpeg",
+        deskripsi: "Telur omega Eggspert (isi 10 butir) dari ayam pilihan, bergizi tinggi."
+      },
+      {
+        nama: "Garam",
+        harga: 10380,
+        gambar: "garam.jpg",
+        deskripsi: "Garam dapur Mamasuka (1kg) beryodium, penting untuk kesehatan."
+      },
+      {
+        nama: "Susu Cimory",
+        harga: 6800,
+        gambar: "susu.png",
+        deskripsi: "Susu segar Cimory dalam berbagai varian rasa.",
+        varian: ["Chocolate", "Strawberry", "Matcha", "Hazelnut", "Blueberry", "Almond", "Cashew", "Salted Caramel", "Sea Salt", "Banana", "Peanut Butter", "Tiramisu"]
+      },
+      {
+        nama: "Tepung",
+        harga: 14000,
+        gambar: "tepung.jpg",
+        deskripsi: "Tepung beras putih (500g) protein serbaguna untuk kue dan gorengan."
+      }
+    ];
+
+    function renderProduk() {
+      const container = document.getElementById("produkList");
+      container.innerHTML = "";
+
+      produk.forEach((p, i) => {
+        let varianSelect = "";
+        if (p.varian) {
+          varianSelect = `
+            <select class="varian-select" id="varian-${i}">
+              ${p.varian.map(v => `<option value="${v}">${v}</option>`).join("")}
+            </select>`;
+        }
+
+        container.innerHTML += `
+          <div class="item">
+            <img src="${p.gambar}" alt="${p.nama}" />
+            <h2>${p.nama}</h2>
+            <p>${p.deskripsi}</p>
+            ${varianSelect}
+            <p class="harga">Rp ${p.harga.toLocaleString()}</p>
+            <button class="btn" onclick="tambahKeranjang('${p.nama}', ${p.harga}, ${p.varian ? `'varian-${i}'` : 'null'})">+ Keranjang</button>
+          </div>`;
+      });
+    }
+
+    function tambahKeranjang(nama, harga, varianId) {
+      let varian = "";
+      if (varianId) {
+        const select = document.getElementById(varianId);
+        varian = select.value ? ` (${select.value})` : "";
+      }
+
+      let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      keranjang.push({ nama: nama + varian, harga });
+      localStorage.setItem("keranjang", JSON.stringify(keranjang));
+      updateKeranjang();
+    }
+
+    function updateKeranjang() {
+      let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      document.getElementById("jumlahKeranjang").innerText = keranjang.length;
+    }
+
+    function toggleKeranjang() {
+      alert("Fitur keranjang belum diimplementasikan di halaman ini.");
+    }
+
+    renderProduk();
+    updateKeranjang();
+  </script>
+</body>
+</html>
